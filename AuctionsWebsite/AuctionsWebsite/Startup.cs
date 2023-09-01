@@ -1,6 +1,8 @@
 using AuctionsWebsite.Extensions;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,6 +24,9 @@ namespace AuctionsWebsite
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(o => o.LoginPath = new PathString("/Auth/Login"));
+
             services.AddControllersWithViews();
 
             services.CreateLogger(Configuration);
@@ -47,6 +52,8 @@ namespace AuctionsWebsite
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseRouting();
 

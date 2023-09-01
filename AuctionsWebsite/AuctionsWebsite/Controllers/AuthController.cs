@@ -1,9 +1,14 @@
 ﻿using AuctionsWebsite.Models;
 using Contracts;
 using Entities.DTO.Auth;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Diagnostics;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace AuctionsWebsite.Controllers
 {
@@ -25,7 +30,7 @@ namespace AuctionsWebsite.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Login(LoginDTO loginObj)
+        public async Task<IActionResult> Login(LoginDTO loginObj)
         {
             if (!ModelState.IsValid)
                 return View(loginObj);
@@ -36,8 +41,15 @@ namespace AuctionsWebsite.Controllers
 
                 if (isPresent)
                 {
-                    ViewBag.Result = "User found!";
-                    return View();
+                    var claims = new[] { new Claim(ClaimTypes.Name, loginObj.Username) };
+
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(identity));
+
+                    return RedirectToAction("Index", "Auction");
                 }
 
                 else
