@@ -1,0 +1,29 @@
+﻿@model Entities.DTO.Auth.LoginDTO
+
+@{
+    ViewData["Title"] = "Login Page";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">Login</h1>
+    @using (Html.BeginForm("Login", "Auth", FormMethod.Post))
+    {
+        @Html.ValidationSummary(true)
+        <div>
+            @Html.Label("Username")
+            @Html.TextBoxFor(u => u.Username)
+            @Html.ValidationMessageFor(u => u.Username)
+        </div>
+        <div>
+            @Html.Label("Password")
+            @Html.TextBoxFor(u => u.Password)
+            @Html.ValidationMessageFor(u => u.Password)
+        </div>
+        <input type="submit" value="Login" />
+        @ViewBag.Result
+    }
+
+    @Html.Label("Not registered yet?")
+    @Html.ActionLink("Try here!", "Register")
+</div>

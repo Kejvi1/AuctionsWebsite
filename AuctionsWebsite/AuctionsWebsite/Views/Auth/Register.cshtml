@@ -1,0 +1,49 @@
+﻿@model Entities.DTO.Auth.RegisterDTO
+
+@{
+    ViewData["Title"] = "Register Page";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">Login</h1>
+    @using (Html.BeginForm("Register", "Auth", FormMethod.Post))
+    {
+        @Html.ValidationSummary(true)
+        <table>
+            <tr>
+                <td>
+                    @Html.Label("Username")
+                    @Html.TextBoxFor(u => u.Username)
+                    @Html.ValidationMessageFor(u => u.Username)
+                </td>
+                <td>
+                    @Html.Label("First Name")
+                    @Html.TextBoxFor(u => u.FirstName)
+                    @Html.ValidationMessageFor(u => u.FirstName)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("Password")
+                    @Html.TextBoxFor(u => u.Password)
+                    @Html.ValidationMessageFor(u => u.Password)
+                </td>
+                <td>
+                    @Html.Label("Last Name")
+                    @Html.TextBoxFor(u => u.LastName)
+                    @Html.ValidationMessageFor(u => u.LastName)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("Confirm Password")
+                    @Html.TextBoxFor(u => u.ConfirmPassword)
+                    @Html.ValidationMessageFor(u => u.ConfirmPassword)
+                </td>
+            </tr>
+        </table>
+        <input type="submit" value="Register" />
+        @ViewBag.Result
+    }
+</div>
