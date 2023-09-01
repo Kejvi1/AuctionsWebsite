@@ -27,7 +27,7 @@ namespace Repositories.Auth
         {
             var walletDAO = new WalletDAO
             {
-                Amount = 10000
+                Amount = 1000
             };
 
             var userDAO = new RegisterDAO
