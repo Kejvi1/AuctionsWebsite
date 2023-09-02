@@ -23,7 +23,7 @@ namespace Repositories.Auction
                 a => a.Bids
             };
 
-            var data = base.Find(a => a.EndDate >= DateTime.Now, includes: include);
+            var data = base.Find(a => a.Status == 0, includes: include);
 
             var dto = data.Select(a => new CurrentAuctionDataDTO
             {

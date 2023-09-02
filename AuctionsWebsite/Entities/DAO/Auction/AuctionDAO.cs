@@ -3,6 +3,7 @@ using Entities.DAO.Bid;
 using Entities.DAO.Product;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Entities.DAO.Auction
 {
@@ -35,6 +36,22 @@ namespace Entities.DAO.Auction
         /// User id
         /// </summary>
         public int UserId { get; set; }
+
+        /// <summary>
+        /// Status of action
+        /// </summary>
+        /// <remarks>
+        /// <list type="bullet">
+        /// <item>
+        /// 0 -> open
+        /// </item>
+        /// <item>
+        /// 1 -> finished
+        /// </item>
+        /// </list>
+        /// </remarks>
+        [DefaultValue(0)]
+        public int Status { get; set; }
 
         #region navigational properties
 
