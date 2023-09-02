@@ -1,5 +1,6 @@
 ﻿using Contracts.Auction;
 using Contracts.Auth;
+using Contracts.Bid;
 using Contracts.Product;
 using Contracts.Wallet;
 using System;
@@ -15,6 +16,8 @@ namespace Contracts
         IProductRepository Product { get; }
 
         IWalletRepository Wallet { get; }
+
+        IBidRepository Bid { get; }
 
         void Save();
     }

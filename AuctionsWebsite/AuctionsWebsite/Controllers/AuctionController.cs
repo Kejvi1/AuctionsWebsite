@@ -1,11 +1,9 @@
 ﻿using Contracts;
 using Entities.DTO.Auction;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace AuctionsWebsite.Controllers
 {
@@ -48,6 +46,26 @@ namespace AuctionsWebsite.Controllers
             }
         }
 
+        public IActionResult Details(int id)
+        {
+            try
+            {
+                ViewBag.AmountErr = TempData["AmountErr"];
+                ViewBag.Result = TempData["Result"];
+
+                var details = _repository.Auction.GetAuctionDetails(id);
+
+                return View(details);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside Delete action: {ex.Message}!");
+                ViewBag.Result = "There was an error deleting the auction! Please try again later!";
+
+                return View();
+            }
+        }
+
         public IActionResult Create()
         {
             return View();
@@ -65,7 +83,9 @@ namespace AuctionsWebsite.Controllers
 
                 if (prod == null)
                 {
-                    ViewBag.Result = "Product name or description does not exist!";
+                    ModelState.AddModelError("ProductName", "Product name does not exist!");
+                    ModelState.AddModelError("ProductDescription", "Product description does not exist!");
+
                     return View(auction);
                 }
 

@@ -10,7 +10,7 @@
         Hi @Context.User.Identity.Name!
         @using (Html.BeginForm("Logout", "Auth", FormMethod.Post))
         {
-            <input type="submit" value="Logout" style="background: none !important; border: none; padding: 0 !important; text-decoration: underline; cursor: pointer; color:blue; margin-left:10px" />
+            <input type="submit" value="Logout" style="background: none !important; border: none; padding: 0 !important; cursor: pointer; color:blue; margin-left:10px" />
         }
     </div>
 
@@ -36,7 +36,7 @@
             {
                 <tr>
                     <td>
-                        @Html.ActionLink(item.Product, "Details")
+                        @Html.ActionLink(item.Product, "Details", new { id = item.Id })
                     </td>
                     <td>
                         @Html.DisplayFor(m => item.Seller)

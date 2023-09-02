@@ -1,0 +1,73 @@
+﻿@model Entities.DTO.Auction.AuctionDetailsDTO
+
+@{
+    ViewData["Title"] = "Auction Details Page";
+}
+
+<div>
+    <h1 class="display-4">Current Auctions</h1>
+    <div style="float:right; display: flex">
+        @Html.ActionLink("Home", "Index", "Auction")
+        @using (Html.BeginForm("Logout", "Auth", FormMethod.Post))
+        {
+            <input type="submit" value="Logout" style="background: none !important; border: none; padding: 0 !important; cursor: pointer; color:blue; margin-left:10px" />
+        }
+    </div>
+
+    <div>
+        <table>
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => m.ProductName)
+                </td>
+                <td>
+                    Created by: @Html.DisplayFor(m => m.SellerName)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Time remaining: @Html.DisplayFor(m => m.TimeRemaining) days
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => m.ProductDescription)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Current highest bid: @Html.DisplayFor(m => m.HighestBidAmount)
+                </td>
+                <td>
+                    By: @Html.DisplayFor(m => m.HighestBidName)
+                </td>
+            </tr>
+        </table>
+    </div>
+    @if (Model.SellerId.ToString() == Context.User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value)
+    {
+        @using (Html.BeginForm("EndAuction", "Auction", new { Id = Model.Id }, FormMethod.Post))
+        {
+            @Html.Hidden("HighestBid", Model.HighestBidAmount)
+            <br />
+            //TODO end auction
+        }
+        @ViewBag.Result
+    }
+    else
+    {
+        <div style="float:right;">
+            @using (Html.BeginForm("PlaceBid", "Bid", new { Id = Model.Id }, FormMethod.Post))
+            {
+                @Html.Hidden("HighestBid", Model.HighestBidAmount)
+                @Html.TextBox("Amount")
+                <br />
+                @ViewBag.AmountErr
+                <br />
+
+                <input type="submit" value="Bid" />
+            }
+            @ViewBag.Result
+        </div>
+    }
+</div>

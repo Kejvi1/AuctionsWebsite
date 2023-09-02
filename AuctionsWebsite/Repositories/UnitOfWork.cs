@@ -1,11 +1,12 @@
 ﻿using Contracts;
 using Contracts.Auction;
 using Contracts.Auth;
+using Contracts.Bid;
 using Contracts.Product;
 using Contracts.Wallet;
-using Microsoft.Extensions.Configuration;
 using Repositories.Auction;
 using Repositories.Auth;
+using Repositories.Bid;
 using Repositories.Product;
 using Repositories.Wallet;
 
@@ -14,12 +15,10 @@ namespace Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationContext _context;
-        private readonly IConfiguration _config;
 
-        public UnitOfWork(ApplicationContext context, IConfiguration config)
+        public UnitOfWork(ApplicationContext context)
         {
             _context = context;
-            _config = config;
         }
 
         public IAuthRepository Auth =>
@@ -33,6 +32,9 @@ namespace Repositories
 
         public IWalletRepository Wallet =>
             new WalletRepository(context: _context);
+
+        public IBidRepository Bid =>
+            new BidRepository(context: _context);
 
         public void Dispose() => _context.Dispose();
 

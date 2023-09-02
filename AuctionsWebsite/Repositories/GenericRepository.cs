@@ -40,6 +40,18 @@ namespace Repositories
             return query.Where(expression);
         }
 
+        public virtual IEnumerable<T> FindNested(Expression<Func<T, bool>> expression, params string[] includes)
+        {
+            IQueryable<T> query = dbSet;
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return query.Where(expression);
+        }
+
         public virtual void Add(T entity)
         {
             dbSet.Add(entity);

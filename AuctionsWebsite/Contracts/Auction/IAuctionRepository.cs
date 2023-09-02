@@ -10,6 +10,8 @@ namespace Contracts.Auction
 
         AuctionDAO GetAuctionById(int id);
 
+        AuctionDetailsDTO GetAuctionDetails(int id);
+
         void CreateAuction(AuctionDTO auction, int prodId, int uId);
 
         void DeleteAuction(AuctionDAO auction);
