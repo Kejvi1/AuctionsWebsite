@@ -23,7 +23,7 @@ namespace Repositories.Auction
                 a => a.Bids
             };
 
-            var data = base.Find(a => a.EndDate <= DateTime.Now, includes: include);
+            var data = base.Find(a => a.EndDate >= DateTime.Now, includes: include);
 
             var dto = data.Select(a => new CurrentAuctionDataDTO
             {
@@ -31,8 +31,8 @@ namespace Repositories.Auction
                 Product = a.Product.ProductName,
                 Seller = a.User.FirstName,
                 SellerId = a.User.Id,
-                TimeRemaining = DateTime.Now.Subtract(a.EndDate).Days,
-                TopBid = a.Bids.Max().Amount
+                TimeRemaining = (a.EndDate - DateTime.Now).Days,
+                TopBid = a.Bids.Max()?.Amount ?? 0
             }).OrderBy(a => a.TimeRemaining);
 
             return dto;

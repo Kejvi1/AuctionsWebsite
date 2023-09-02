@@ -5,14 +5,14 @@
 }
 
 <div>
-    <h1 class="display-4">Currenct Auctions</h1>
+    <h1 class="display-4">Current Auctions</h1>
     <div style="float:right">
         Hi @Context.User.Identity.Name!
         @Html.ActionLink("Logout", "Login", "Auth")
     </div>
 
     <div>
-        <table class="content-wrapper">
+        <table class="table table-bordered table-responsive table-hover" style="width:stretch">
             <tr>
                 <th>
                     @Html.DisplayName("Product")
@@ -33,16 +33,16 @@
             {
                 <tr>
                     <td>
-                        @Html.ActionLink(item.Product, "Details", "Bid")
+                        @Html.ActionLink(item.Product, "Details", "Auction")
                     </td>
                     <td>
                         @Html.DisplayFor(m => item.Seller)
                     </td>
                     <td>
-                        @Html.DisplayFor(m => item.TopBid)
+                        $@Html.DisplayFor(m => item.TopBid)
                     </td>
                     <td>
-                        @Html.DisplayFor(m => item.TimeRemaining)
+                        @Html.DisplayFor(m => item.TimeRemaining) Days
                     </td>
                     <td>
                         @if (Context.User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value == item.SellerId.ToString())
@@ -53,15 +53,11 @@
         </table>
     </div>
     <div>
-        <table>
-            <tr>
-                <td>
-                    @Html.ActionLink("New Auction", "Create", "Auction")
-                </td>
-                <td>
-                    Your Current Wallet: @Html.DisplayFor(m => m.CurrentWalletAmount)
-                </td>
-            </tr>
-        </table>
+        <div style="float:left">
+            @Html.ActionLink("New Auction", "Create", "Auction")
+        </div>
+        <div style="float:right">
+            Your Current Wallet: $@Html.DisplayFor(m => m.CurrentWalletAmount)
+        </div>
     </div>
 </div>
