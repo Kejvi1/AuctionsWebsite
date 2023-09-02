@@ -38,6 +38,11 @@ namespace Repositories.Auction
             return dto;
         }
 
+        public AuctionDAO GetAuctionById(int id)
+        {
+            return base.Find(a => a.Id == id).FirstOrDefault();
+        }
+
         public void CreateAuction(AuctionDTO auction, int prodId, int uId)
         {
             var auctionDAO = new AuctionDAO
@@ -49,6 +54,11 @@ namespace Repositories.Auction
             };
 
             base.Add(auctionDAO);
+        }
+
+        public void DeleteAuction(AuctionDAO auction)
+        {
+            base.Remove(auction);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Entities.DTO.Auction;
+﻿using Entities.DAO.Auction;
+using Entities.DTO.Auction;
 using System.Collections.Generic;
 
 namespace Contracts.Auction
@@ -7,6 +8,10 @@ namespace Contracts.Auction
     {
         IEnumerable<CurrentAuctionDataDTO> GetAuctions();
 
+        AuctionDAO GetAuctionById(int id);
+
         void CreateAuction(AuctionDTO auction, int prodId, int uId);
+
+        void DeleteAuction(AuctionDAO auction);
     }
 }

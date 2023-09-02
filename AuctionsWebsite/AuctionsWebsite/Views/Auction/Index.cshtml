@@ -33,7 +33,7 @@
             {
                 <tr>
                     <td>
-                        @Html.ActionLink(item.Product, "Details", "Auction")
+                        @Html.ActionLink(item.Product, "Details")
                     </td>
                     <td>
                         @Html.DisplayFor(m => item.Seller)
@@ -46,7 +46,7 @@
                     </td>
                     <td>
                         @if (Context.User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value == item.SellerId.ToString())
-                            @Html.ActionLink("Delete", "Auction", new { id = item.Id })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                     </td>
                 </tr>
             }
@@ -54,10 +54,11 @@
     </div>
     <div>
         <div style="float:left">
-            @Html.ActionLink("New Auction", "Create", "Auction")
+            @Html.ActionLink("New Auction", "Create")
         </div>
         <div style="float:right">
             Your Current Wallet: $@Html.DisplayFor(m => m.CurrentWalletAmount)
         </div>
+        @ViewBag.Result
     </div>
 </div>

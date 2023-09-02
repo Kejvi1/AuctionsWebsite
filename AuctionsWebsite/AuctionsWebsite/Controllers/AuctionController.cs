@@ -23,19 +23,29 @@ namespace AuctionsWebsite.Controllers
 
         public IActionResult Index()
         {
-            var wallet = _repository.Wallet.GetWalletForUser(Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value));
-
-            if (wallet == null)
+            try
             {
-                ViewBag.Result = "There isn't any wallet for this user!";
+                var wallet = _repository.Wallet.GetWalletForUser(Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value));
+
+                if (wallet == null)
+                {
+                    ViewBag.Result = "There isn't any wallet for this user!";
+                    return View();
+                }
+
+                var auctions = _repository.Auction.GetAuctions();
+
+                var dto = new CurrentAuctionsDTO { CurrentWalletAmount = wallet.Amount, Auctions = auctions };
+
+                return View(dto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong getting auctions: {ex.Message}!");
+                ViewBag.Result = "There was an error getting data from database! Please try again later!";
+
                 return View();
             }
-
-            var auctions = _repository.Auction.GetAuctions();
-
-            var dto = new CurrentAuctionsDTO { CurrentWalletAmount = wallet.Amount, Auctions = auctions };
-
-            return View(dto);
         }
 
         public IActionResult Create()
@@ -83,6 +93,32 @@ namespace AuctionsWebsite.Controllers
 
                 return View(auction);
             }
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                var auction = _repository.Auction.GetAuctionById(id);
+
+                if (auction == null)
+                    ViewBag.Result = "The auction doesn't exist!";
+
+                else
+                {
+                    _repository.Auction.DeleteAuction(auction);
+                    _repository.Save();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside Delete action: {ex.Message}!");
+                ViewBag.Result = "There was an error deleting the auction! Please try again later!";
+            }
+
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
