@@ -6,11 +6,10 @@
 }
 
 <div>
-    @using (Html.BeginForm("Logout", "Auction", FormMethod.Post))
-    {
-        <div style="float:right">
-            Hi @Context.User.Identity.Name!
-            <input type="submit" value="Logout" style="background: none!important; border: none; padding: 0!important; text-decoration: underline;cursor: pointer; color:blue;" />
-        </div>
-    }
+    <div style="float:right">
+        Hi @Context.User.Identity.Name!
+        @Html.ActionLink("Logout", "Login", "Auth")
+    </div>
+
+    @Html.ActionLink("New Auction", "Create", "Auction")
 </div>

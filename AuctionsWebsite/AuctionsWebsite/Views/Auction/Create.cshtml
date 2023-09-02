@@ -1,0 +1,46 @@
+﻿@model Entities.DTO.Auction.AuctionDTO
+
+@{
+    ViewData["Title"] = "New Auction Page";
+}
+
+<div>
+    <div style="float:right">
+        @Html.ActionLink("Home", "Index", "Auction")
+        @Html.ActionLink("Logout", "Login", "Auth")
+    </div>
+
+    @using (Html.BeginForm("Create", "Auction", FormMethod.Post))
+    {
+        <div>
+            <table>
+                <tr>
+                    <td>
+                        @Html.Label("Product Name")
+                        @Html.TextBoxFor(p => p.ProductName)
+                        @Html.ValidationMessageFor(p => p.ProductName)
+                    </td>
+                    <td>
+                        @Html.Label("Starting Bid")
+                        @Html.TextBoxFor(a => a.StartingBid, new { @type = "number" })
+                        @Html.ValidationMessageFor(a => a.StartingBid)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.Label("Product Description")
+                        @Html.TextAreaFor(p => p.ProductDescription)
+                        @Html.ValidationMessageFor(p => p.ProductDescription)
+                    </td>
+                    <td>
+                        @Html.Label("End Date")
+                        @Html.TextBoxFor(a => a.EndDate, new { @type = "date" })
+                        @Html.ValidationMessageFor(a => a.EndDate)
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="Create Auction" />
+            @ViewBag.Result
+        </div>
+    }
+</div>

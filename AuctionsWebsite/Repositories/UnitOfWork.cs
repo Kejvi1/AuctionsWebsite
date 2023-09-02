@@ -1,7 +1,11 @@
 ﻿using Contracts;
+using Contracts.Auction;
 using Contracts.Auth;
+using Contracts.Product;
 using Microsoft.Extensions.Configuration;
+using Repositories.Auction;
 using Repositories.Auth;
+using Repositories.Product;
 
 namespace Repositories
 {
@@ -18,6 +22,12 @@ namespace Repositories
 
         public IAuthRepository Auth =>
             new AuthRepository(context: _context);
+
+        public IAuctionRepository Auction =>
+            new AuctionRepository(context: _context);
+
+        public IProductRepository Product =>
+            new ProductRepository(context: _context);
 
         public void Dispose() => _context.Dispose();
 
