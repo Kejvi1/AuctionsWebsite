@@ -23,15 +23,19 @@ namespace AuctionsWebsite.Controllers
 
         public IActionResult Index()
         {
-            return View();
-        }
+            var wallet = _repository.Wallet.GetWalletForUser(Convert.ToInt32(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value));
 
-        [HttpPost]
-        public async Task<IActionResult> Logout()
-        {
-            await HttpContext.SignOutAsync();
+            if (wallet == null)
+            {
+                ViewBag.Result = "There isn't any wallet for this user!";
+                return View();
+            }
 
-            return RedirectToAction("Login", "Auth");
+            var auctions = _repository.Auction.GetAuctions();
+
+            var dto = new CurrentAuctionsDTO { CurrentWalletAmount = wallet.Amount, Auctions = auctions };
+
+            return View(dto);
         }
 
         public IActionResult Create()
@@ -79,6 +83,14 @@ namespace AuctionsWebsite.Controllers
 
                 return View(auction);
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+
+            return RedirectToAction("Login", "Auth");
         }
     }
 }

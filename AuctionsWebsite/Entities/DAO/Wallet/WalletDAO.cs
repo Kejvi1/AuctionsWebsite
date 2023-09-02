@@ -27,7 +27,7 @@ namespace Entities.DAO.Wallet
         /// <summary>
         /// User object
         /// </summary>
-        public RegisterDAO User { get; set; }
+        public virtual RegisterDAO User { get; set; }
 
         #endregion
     }

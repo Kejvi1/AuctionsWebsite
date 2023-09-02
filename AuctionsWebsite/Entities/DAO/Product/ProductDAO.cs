@@ -27,7 +27,7 @@ namespace Entities.DAO.Product
         /// <summary>
         /// Auction object
         /// </summary>
-        public AuctionDAO Auction { get; set; }
+        public virtual AuctionDAO Auction { get; set; }
 
         #endregion
     }

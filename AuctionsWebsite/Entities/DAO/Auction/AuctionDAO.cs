@@ -1,6 +1,8 @@
 ﻿using Entities.DAO.Auth;
+using Entities.DAO.Bid;
 using Entities.DAO.Product;
 using System;
+using System.Collections.Generic;
 
 namespace Entities.DAO.Auction
 {
@@ -39,12 +41,17 @@ namespace Entities.DAO.Auction
         /// <summary>
         /// Product object
         /// </summary>
-        public ProductDAO Product { get; set; }
+        public virtual ProductDAO Product { get; set; }
 
         /// <summary>
         /// User object
         /// </summary>
-        public RegisterDAO User { get; set; }
+        public virtual RegisterDAO User { get; set; }
+
+        /// <summary>
+        /// Bids collection
+        /// </summary>
+        public virtual ICollection<BidDAO> Bids { get; set; }
 
         #endregion
     }

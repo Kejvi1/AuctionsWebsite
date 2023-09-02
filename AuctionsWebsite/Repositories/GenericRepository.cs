@@ -28,9 +28,16 @@ namespace Repositories
             return dbSet.ToList();
         }
 
-        public virtual IEnumerable<T> Find(Expression<Func<T, bool>> expression)
+        public virtual IEnumerable<T> Find(Expression<Func<T, bool>> expression, params Expression<Func<T, object>>[] includes)
         {
-            return dbSet.Where(expression);
+            IQueryable<T> query = dbSet;
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return query.Where(expression);
         }
 
         public virtual void Add(T entity)

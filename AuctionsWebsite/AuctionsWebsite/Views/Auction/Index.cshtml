@@ -1,15 +1,67 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Entities.DTO.Auction.CurrentAuctionsDTO
+
 @{
     ViewData["Title"] = "Auction Page";
 }
 
 <div>
+    <h1 class="display-4">Currenct Auctions</h1>
     <div style="float:right">
         Hi @Context.User.Identity.Name!
         @Html.ActionLink("Logout", "Login", "Auth")
     </div>
 
-    @Html.ActionLink("New Auction", "Create", "Auction")
+    <div>
+        <table class="content-wrapper">
+            <tr>
+                <th>
+                    @Html.DisplayName("Product")
+                </th>
+                <th>
+                    @Html.DisplayName("Seller")
+                </th>
+                <th>
+                    @Html.DisplayName("Top Bid")
+                </th>
+                <th>
+                    @Html.DisplayName("Time remaining")
+                </th>
+                <th>
+                </th>
+            </tr>
+            @foreach (var item in Model.Auctions)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(item.Product, "Details", "Bid")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.Seller)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.TopBid)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.TimeRemaining)
+                    </td>
+                    <td>
+                        @if (Context.User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value == item.SellerId.ToString())
+                            @Html.ActionLink("Delete", "Auction", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div>
+        <table>
+            <tr>
+                <td>
+                    @Html.ActionLink("New Auction", "Create", "Auction")
+                </td>
+                <td>
+                    Your Current Wallet: @Html.DisplayFor(m => m.CurrentWalletAmount)
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>

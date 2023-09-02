@@ -1,4 +1,5 @@
 ﻿using Entities.DAO.Auction;
+using Entities.DAO.Bid;
 using Entities.DAO.Wallet;
 using System.Collections.Generic;
 
@@ -39,12 +40,17 @@ namespace Entities.DAO.Auth
         /// <summary>
         /// Wallet object
         /// </summary>
-        public WalletDAO Wallet { get; set; }
+        public virtual WalletDAO Wallet { get; set; }
 
         /// <summary>
-        /// Auctions
+        /// Auctions collection
         /// </summary>
-        public ICollection<AuctionDAO> Auctions { get; set; }
+        public virtual ICollection<AuctionDAO> Auctions { get; set; }
+
+        /// <summary>
+        /// Bids collection
+        /// </summary>
+        public virtual ICollection<BidDAO> Bids { get; set; }
 
         #endregion
     }

@@ -1,5 +1,6 @@
 ﻿using Entities.DAO.Auction;
 using Entities.DAO.Auth;
+using Entities.DAO.Bid;
 using Entities.DAO.Product;
 using Entities.DAO.Wallet;
 using Microsoft.EntityFrameworkCore;
@@ -55,7 +56,15 @@ namespace Repositories
 
             builder.Entity<AuctionDAO>(entity =>
             {
-                entity.ToTable("Auction").HasOne(a => a.User).WithMany(u => u.Auctions).HasForeignKey(f => f.UserId);
+                entity.ToTable("Auction");
+                entity.HasOne(a => a.User).WithMany(u => u.Auctions).HasForeignKey(f => f.UserId);
+                entity.HasMany(b => b.Bids).WithOne(a => a.Auction).HasForeignKey(f => f.AuctionId);
+            });
+
+            builder.Entity<BidDAO>(entity =>
+            {
+                entity.ToTable("Bid");
+                entity.HasOne(u => u.User).WithMany(b => b.Bids).HasForeignKey(f => f.UserId);
             });
 
             base.OnModelCreating(builder);
