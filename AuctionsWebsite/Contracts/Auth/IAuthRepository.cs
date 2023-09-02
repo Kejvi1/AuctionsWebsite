@@ -7,7 +7,7 @@ namespace Contracts.Auth
     {
         bool GetByUsername(string username);
 
-        bool Login(LoginDTO loginObj);
+        RegisterDAO Login(LoginDTO loginObj);
 
         void Register(RegisterDTO registerObj);
     }

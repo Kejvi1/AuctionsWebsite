@@ -1,4 +1,6 @@
-﻿using Entities.DAO.Wallet;
+﻿using Entities.DAO.Auction;
+using Entities.DAO.Wallet;
+using System.Collections.Generic;
 
 namespace Entities.DAO.Auth
 {
@@ -38,6 +40,11 @@ namespace Entities.DAO.Auth
         /// Wallet object
         /// </summary>
         public WalletDAO Wallet { get; set; }
+
+        /// <summary>
+        /// Auctions
+        /// </summary>
+        public ICollection<AuctionDAO> Auctions { get; set; }
 
         #endregion
     }

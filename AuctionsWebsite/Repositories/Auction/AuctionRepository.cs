@@ -1,6 +1,5 @@
 ﻿using Contracts.Auction;
 using Entities.DAO.Auction;
-using Entities.DAO.Product;
 using Entities.DTO.Auction;
 
 namespace Repositories.Auction
@@ -11,13 +10,14 @@ namespace Repositories.Auction
         {
         }
 
-        public void CreateAuction(AuctionDTO auction, ProductDAO prod)
+        public void CreateAuction(AuctionDTO auction, int prodId, int uId)
         {
             var auctionDAO = new AuctionDAO
             {
                 EndDate = auction.EndDate,
                 StartingBid = auction.StartingBid,
-                ProductId = prod.Id
+                ProductId = prodId,
+                UserId = uId
             };
 
             base.Add(auctionDAO);

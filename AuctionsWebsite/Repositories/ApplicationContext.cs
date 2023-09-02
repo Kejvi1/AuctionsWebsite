@@ -55,7 +55,7 @@ namespace Repositories
 
             builder.Entity<AuctionDAO>(entity =>
             {
-                entity.ToTable("Auction");
+                entity.ToTable("Auction").HasOne(a => a.User).WithMany(u => u.Auctions).HasForeignKey(f => f.UserId);
             });
 
             base.OnModelCreating(builder);

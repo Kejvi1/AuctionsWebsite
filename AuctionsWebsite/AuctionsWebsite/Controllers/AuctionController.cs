@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AuctionsWebsite.Controllers
@@ -54,7 +55,17 @@ namespace AuctionsWebsite.Controllers
                     return View(auction);
                 }
 
-                _repository.Auction.CreateAuction(auction, prod);
+                var uid = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value;
+
+                if (string.IsNullOrWhiteSpace(uid))
+                {
+                    _logger.LogError($"Something went wrong inside Create action: Couldn't fetch userId!");
+
+                    ViewBag.Result = "There was an error creating the auction! Please try again later!";
+                    return View(auction);
+                }
+
+                _repository.Auction.CreateAuction(auction, prod.Id, Convert.ToInt32(uid));
                 _repository.Save();
 
                 ViewBag.Result = "Auction created successfully!";

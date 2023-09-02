@@ -2,7 +2,6 @@
 using Entities.DAO.Auth;
 using Entities.DAO.Wallet;
 using Entities.DTO.Auth;
-using System;
 using System.Linq;
 
 namespace Repositories.Auth
@@ -18,9 +17,9 @@ namespace Repositories.Auth
             return base.Find(u => u.Username == username).Any();
         }
 
-        public bool Login(LoginDTO loginObj)
+        public RegisterDAO Login(LoginDTO loginObj)
         {
-            return base.Find(u => u.Username == loginObj.Username && u.Password == loginObj.Password).Any();
+            return base.Find(u => u.Username == loginObj.Username && u.Password == loginObj.Password).FirstOrDefault();
         }
 
         public void Register(RegisterDTO registerObj)

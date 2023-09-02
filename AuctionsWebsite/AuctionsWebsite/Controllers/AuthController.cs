@@ -37,11 +37,15 @@ namespace AuctionsWebsite.Controllers
 
             try
             {
-                bool isPresent = _repository.Auth.Login(loginObj);
+                var user = _repository.Auth.Login(loginObj);
 
-                if (isPresent)
+                if (user != null)
                 {
-                    var claims = new[] { new Claim(ClaimTypes.Name, loginObj.Username) };
+                    var claims = new[]
+                    {
+                        new Claim(ClaimTypes.Name, user.Username),
+                        new Claim("uid", user.Id.ToString())
+                    };
 
                     var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 

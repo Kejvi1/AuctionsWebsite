@@ -1,4 +1,5 @@
-﻿using Entities.DAO.Product;
+﻿using Entities.DAO.Auth;
+using Entities.DAO.Product;
 using System;
 
 namespace Entities.DAO.Auction
@@ -28,12 +29,22 @@ namespace Entities.DAO.Auction
         /// </summary>
         public int ProductId { get; set; }
 
+        /// <summary>
+        /// User id
+        /// </summary>
+        public int UserId { get; set; }
+
         #region navigational properties
 
         /// <summary>
         /// Product object
         /// </summary>
         public ProductDAO Product { get; set; }
+
+        /// <summary>
+        /// User object
+        /// </summary>
+        public RegisterDAO User { get; set; }
 
         #endregion
     }
