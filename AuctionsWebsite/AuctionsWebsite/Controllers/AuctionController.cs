@@ -120,13 +120,5 @@ namespace AuctionsWebsite.Controllers
 
             return RedirectToAction("Index");
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Logout()
-        {
-            await HttpContext.SignOutAsync();
-
-            return RedirectToAction("Login", "Auth");
-        }
     }
 }

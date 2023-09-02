@@ -58,7 +58,7 @@ namespace Repositories
             {
                 entity.ToTable("Auction");
                 entity.HasOne(a => a.User).WithMany(u => u.Auctions).HasForeignKey(f => f.UserId).OnDelete(DeleteBehavior.NoAction);
-                entity.HasMany(b => b.Bids).WithOne(a => a.Auction).HasForeignKey(f => f.AuctionId).OnDelete(DeleteBehavior.NoAction);
+                entity.HasMany(b => b.Bids).WithOne(a => a.Auction).HasForeignKey(f => f.AuctionId).OnDelete(DeleteBehavior.Cascade);
             });
 
             builder.Entity<BidDAO>(entity =>

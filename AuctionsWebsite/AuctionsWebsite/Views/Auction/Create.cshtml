@@ -5,10 +5,13 @@
 }
 
 <div>
-    <div style="float:right">
+    <div style="float:right; display: flex">
         <h1 class="display-4">New Auction</h1>
         @Html.ActionLink("Home", "Index", "Auction")
-        @Html.ActionLink("Logout", "Login", "Auth")
+        @using (Html.BeginForm("Logout", "Auth", FormMethod.Post))
+        {
+            <input type="submit" value="Logout" style="background: none !important; border: none; padding: 0 !important; text-decoration: underline; cursor: pointer; color: blue; margin-left: 10px" />
+        }
     </div>
 
     @using (Html.BeginForm("Create", "Auction", FormMethod.Post))
