@@ -51,8 +51,6 @@
     {
         @using (Html.BeginForm("EndAuction", "Auction", new { Id = Model.Id }, FormMethod.Post))
         {
-            @Html.Hidden("HighestBid", Model.HighestBidAmount)
-            <br />
             <input type="submit" value="End Auction" />
         }
         @ViewBag.EndAuctionErr

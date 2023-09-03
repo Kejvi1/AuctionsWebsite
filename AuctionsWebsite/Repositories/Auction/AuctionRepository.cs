@@ -70,7 +70,8 @@ namespace Repositories.Auction
                 TimeRemaining = (data.EndDate - DateTime.Now).Days,
                 HighestBidName = data.Bids.OrderByDescending(a => a.Amount)?.FirstOrDefault()?.User?.Username,
                 HighestBidUserId = data.Bids.OrderByDescending(a => a.Amount)?.FirstOrDefault()?.UserId ?? 0,
-                HighestBidAmount = data.Bids.OrderByDescending(a => a.Amount)?.FirstOrDefault()?.Amount ?? 0
+                HighestBidAmount = data.Bids.OrderByDescending(a => a.Amount)?.FirstOrDefault()?.Amount ?? 0,
+                StartingBid = data.StartingBid
             };
         }
 

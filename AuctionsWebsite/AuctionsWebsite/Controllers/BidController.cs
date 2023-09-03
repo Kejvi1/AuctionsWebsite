@@ -20,11 +20,19 @@ namespace AuctionsWebsite.Controllers
         }
 
         [HttpPost]
-        public IActionResult PlaceBid(int id, double highestBid, double amount)
+        public IActionResult PlaceBid(int id, double amount)
         {
             try
             {
-                if (amount <= highestBid)
+                var auctionDetails = _repository.Auction.GetAuctionDetails(id);
+
+                if(amount < auctionDetails.StartingBid)
+                {
+                    TempData["AmountErr"] = "Input amount is lower than the starting bid!";
+                    return RedirectToAction("Details", "Auction", new { id });
+                }
+
+                if (amount <= auctionDetails.HighestBidAmount)
                 {
                     TempData["AmountErr"] = "Input amount is lower than the highest bid!";
                     return RedirectToAction("Details", "Auction", new { id });

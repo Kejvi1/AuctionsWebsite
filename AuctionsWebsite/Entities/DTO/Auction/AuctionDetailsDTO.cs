@@ -49,5 +49,10 @@
         /// User id with the highest bid
         /// </summary>
         public int HighestBidUserId { get; set; }
+
+        /// <summary>
+        /// Starting bid
+        /// </summary>
+        public double StartingBid { get; set; }
     }
 }
