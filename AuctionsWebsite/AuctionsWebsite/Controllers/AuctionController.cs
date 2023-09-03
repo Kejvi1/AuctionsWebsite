@@ -52,6 +52,7 @@ namespace AuctionsWebsite.Controllers
             {
                 ViewBag.AmountErr = TempData["AmountErr"];
                 ViewBag.Result = TempData["Result"];
+                ViewBag.EndAuctionErr = TempData["EndAuctionErr"];
 
                 var details = _repository.Auction.GetAuctionDetails(id);
 
@@ -136,6 +137,30 @@ namespace AuctionsWebsite.Controllers
             {
                 _logger.LogError($"Something went wrong inside Delete action: {ex.Message}!");
                 ViewBag.Result = "There was an error deleting the auction! Please try again later!";
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult EndAuction(int id)
+        {
+            try
+            {
+                var auction = _repository.Auction.GetAuctionDetails(id);
+
+                if (auction == null)
+                    return RedirectToAction("Index");
+
+                _repository.Auction.EndAuction(auction);
+                _repository.Save();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Something went wrong inside EndAuction action: {ex.Message}!");
+                TempData["EndAuctionErr"] = "There was an error ending the auction! Please try again later!";
+
+                return RedirectToAction("Details", new { id });
             }
 
             return RedirectToAction("Index");

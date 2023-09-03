@@ -14,5 +14,10 @@ namespace Repositories.Wallet
         {
             return base.Find(w => w.UserId == userId).FirstOrDefault();
         }
+
+        public void UpdateWallet(WalletDAO wallet)
+        {
+            base.Update(wallet, w => w.Amount);
+        }
     }
 }

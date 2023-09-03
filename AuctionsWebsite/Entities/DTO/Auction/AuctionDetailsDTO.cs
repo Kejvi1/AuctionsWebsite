@@ -44,5 +44,10 @@
         /// Highest bid name
         /// </summary>
         public string HighestBidName { get; set; }
+
+        /// <summary>
+        /// User id with the highest bid
+        /// </summary>
+        public int HighestBidUserId { get; set; }
     }
 }

@@ -15,5 +15,7 @@ namespace Contracts.Auction
         void CreateAuction(AuctionDTO auction, int prodId, int uId);
 
         void DeleteAuction(AuctionDAO auction);
+
+        void EndAuction(AuctionDetailsDTO auction);
     }
 }

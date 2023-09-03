@@ -44,17 +44,22 @@
             </tr>
         </table>
     </div>
-    @if (Model.SellerId.ToString() == Context.User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value)
+
+    @*if i created the auction and there is at least one bid*@
+
+    @if (Model.SellerId.ToString() == Context.User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value && Model.HighestBidUserId > 0)
     {
         @using (Html.BeginForm("EndAuction", "Auction", new { Id = Model.Id }, FormMethod.Post))
         {
             @Html.Hidden("HighestBid", Model.HighestBidAmount)
             <br />
-            //TODO end auction
+            <input type="submit" value="End Auction" />
         }
-        @ViewBag.Result
+        @ViewBag.EndAuctionErr
     }
-    else
+
+    //if i didn't create the auction show bid button
+    else if (Model.SellerId.ToString() != Context.User.Claims.FirstOrDefault(c => c.Type == "uid")?.Value)
     {
         <div style="float:right;">
             @using (Html.BeginForm("PlaceBid", "Bid", new { Id = Model.Id }, FormMethod.Post))

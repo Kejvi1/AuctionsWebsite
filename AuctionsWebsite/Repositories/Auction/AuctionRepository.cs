@@ -1,6 +1,8 @@
 ﻿using Contracts.Auction;
+using Contracts.Wallet;
 using Entities.DAO.Auction;
 using Entities.DTO.Auction;
+using Repositories.Wallet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +12,11 @@ namespace Repositories.Auction
 {
     public class AuctionRepository : GenericRepository<AuctionDAO>, IAuctionRepository
     {
+        private IWalletRepository _wallet;
+
         public AuctionRepository(ApplicationContext context) : base(context)
         {
+            _wallet = new WalletRepository(context);
         }
 
         public IEnumerable<CurrentAuctionDataDTO> GetAuctions()
@@ -64,6 +69,7 @@ namespace Repositories.Auction
                 SellerName = data.User.FirstName,
                 TimeRemaining = (data.EndDate - DateTime.Now).Days,
                 HighestBidName = data.Bids.OrderByDescending(a => a.Amount)?.FirstOrDefault()?.User?.Username,
+                HighestBidUserId = data.Bids.OrderByDescending(a => a.Amount)?.FirstOrDefault()?.UserId ?? 0,
                 HighestBidAmount = data.Bids.OrderByDescending(a => a.Amount)?.FirstOrDefault()?.Amount ?? 0
             };
         }
@@ -84,6 +90,35 @@ namespace Repositories.Auction
         public void DeleteAuction(AuctionDAO auction)
         {
             base.Remove(auction);
+        }
+
+        public void EndAuction(AuctionDetailsDTO auction)
+        {
+            //get seller wallet
+            var sellerWallet = _wallet.GetWalletForUser(auction.SellerId);
+
+            //get buyer wallet
+            var buyerWallet = _wallet.GetWalletForUser(auction.HighestBidUserId);
+
+            //check if buyers current wallet amount if lower than when he first bid in this auction
+            //eg: if he has bid in multiple auctions and he is the highest bidder in all of them
+            if (buyerWallet.Amount < auction.HighestBidAmount)
+                throw new Exception("Can't end auction because buyer doesn't have the required funds!");
+
+            //prepare update objects
+            sellerWallet.Amount += auction.HighestBidAmount;
+            buyerWallet.Amount -= auction.HighestBidAmount;
+
+            _wallet.UpdateWallet(sellerWallet);
+            _wallet.UpdateWallet(buyerWallet);
+
+            var auctionDAO = new AuctionDAO
+            {
+                Id = auction.Id,
+                Status = 1
+            };
+
+            base.Update(auctionDAO, p => p.Status);
         }
     }
 }
